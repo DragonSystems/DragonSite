@@ -23,8 +23,7 @@
     "scryptsy": "^2.0.0",
     "uglify-es": "github:mishoo/UglifyJS2#harmony",
     "uglifyjs-webpack-plugin": "^1.0.0-beta.2",
-    "uuid": "^3.1.0",
-    "web3": "^1.0.0-beta.18"
+    "uuid": "^3.1.0"
   },
   "scripts": {
     "lint": "npm run lint:javascript",
@@ -40,6 +39,7 @@
     "bower": "^1.8.0",
     "express": "^4.15.3",
     "helmet": "^3.8.1",
+    "polymer-cli": "^1.5.4",
     "prpl-server": "^0.7.0",
     "socket.io": "^2.0.3",
     "webpack": "^3.5.5"
