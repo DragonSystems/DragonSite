@@ -27,7 +27,7 @@ The dragon system serves to bring together best of breed distributed crypto tech
 
 ### Build custom docker image
 
-`docker build -t docker.io/username/site:0.0.1-rc1 -f Dockerfile.custom  .`
+`docker build -t docker.io/username/site:0.0.1-rc1 .`
 
 ### Run the docker image
 
