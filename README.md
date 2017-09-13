@@ -18,11 +18,20 @@ The dragon system serves to bring together best of breed distributed crypto tech
 ### Build site
 
 `git clone https://github.com/DragonSystems/DragonSite.git`
+
 `npm install`
+
 `bower install`
+
 `polymer build`
 
-## Build custom docker image
+### Build custom docker image
 
 `docker build -t docker.io/username/site:0.0.1-rc1 -f Dockerfile.custom  .`
+
+### Run the docker image
+
+`docker run -d -p 8080:8080  site:0.0.2`
+
+On browser [http://localhost:8080](http://localhost:8080)
 
