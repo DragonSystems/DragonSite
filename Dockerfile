@@ -9,4 +9,5 @@ COPY build /root/build
 COPY node_modules /root/node_modules
 
 EXPOSE 8080
-CMD [ "node", "server.js" ]
+ENTRYPOINT [ "node" ]
+CMD [ "server.js" ]
