@@ -1,10 +1,12 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-input/paper-textarea.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="functions/function-wallet.html">
+<link rel="import" href="functions/function-message.html">
 <link rel="import" href="../shared-styles.html">
 
-<dom-module id="unlock-wallet">
+<dom-module id="sign-message">
     <template>
         <style>
             :host {
@@ -20,13 +22,13 @@
             }
         </style>
         <function-wallet id="wallet"></function-wallet>
+        <function-message id="message"></function-message>
         <div class="container">
-
-            <h1>Unlock Wallet</h1>
-            <p><b>Before you supply keys</b> confirm the url in the browser is https://website.com</p>
-            <p><b>Double Check!</b> If you supply keys to a malicious/phishing site, your funds will be stolen.</p>
-            
+            <h1>Sign Message</h1>
+            <p>Include your nickname and where you use the nickname so someone else cannot use it. Include a specific reason for the message so it cannot be reused for a different purpose.</p>
+            <paper-input char-counter label="Message" value="{{message}}"></paper-input>
             <input type="file" name="file" id="file" class="inputfile" on-change="_getFile"/>
+            </br>
             <label for="file">
                 <paper-button toggles raised>Select Keystore</paper-button>
             </label>
@@ -35,14 +37,19 @@
             <paper-input char-counter label="Password" value="{{password}}" on-keyup="_checkPassword"></paper-input>
         </template>
         </br>
-            <paper-button toggles raised disabled="{{disabled}}" on-click="_decrypt">Unlock and Enter</paper-button>
+        <paper-button toggles raised disabled="{{disabled}}" on-click="_signMessage">Sign Your Message</paper-button>
+        </br></br>
+        <template is="dom-if" if="{{signedMessage}}">
+            <paper-textarea label="Signed Message" value="{{signature}}"></paper-textarea>
+            <p>This is your signed message you can send or broadcast publicly</p>    
+        </template>
 
         </div>
     </template>
     <script>
-        class UnlockWallet extends Polymer.Element {
+        class SignMessage extends Polymer.Element {
             static get is() {
-                return 'unlock-wallet';
+                return 'sign-message';
             }
             static get properties() {
                 return {
@@ -66,6 +73,14 @@
                     * @type {Boolean}
                     */
                     askPassword: {
+                        type: Boolean,
+                        value: false,
+                    },
+                    /**
+                    * show the signed message
+                    * @type {Boolean}
+                    */
+                    signedMessage: {
                         type: Boolean,
                         value: false,
                     },
@@ -99,14 +114,39 @@
                 this.disabled = true;
             }
         }
-        _decrypt(keystore){
+        _signMessage(keystore){
             this.$.wallet.decryptUtcKeystore(this.keystore, this.password)
             .then((data) => {
-                console.log(data);
+                const privateKey = data;
+                const message = this.message;
+                const address = this.keystore.address;
+                const date = this._makeDate();
+                return this.$.message.signMessage(privateKey, message, address, date)
+            })
+            .then((data) => {
+                const signature = data
+                this.signature = signature;
+                this.signedMessage = true;
             })
         }
+        _makeDate(){
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth()+1; 
+            var yyyy = today.getFullYear();
+            if(dd<10) {
+                dd = '0'+dd
+            } 
+            if(mm<10) {
+                mm = '0'+mm
+            } 
+            today = mm + '/' + dd + '/' + yyyy;
+            return today;
+        }
         
-        } window.customElements.define(UnlockWallet.is, UnlockWallet);
+
+
+        } window.customElements.define(SignMessage.is, SignMessage);
     </script>
 </dom-module>
 
