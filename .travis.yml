@@ -10,9 +10,9 @@ addons:
       - google-chrome-stable
 node_js:
   - "node"
-  - "6"
 cache:
   directories:
+    - $HOME/.cache/bower
     - node_modules
 install:
   - npm install -g polymer-cli
