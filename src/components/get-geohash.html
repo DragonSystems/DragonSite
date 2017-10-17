@@ -52,7 +52,7 @@
                     },
                     geoHash: {
                         type: String,
-                    }
+                    },
                 };
             }
 
@@ -67,7 +67,7 @@
                     this.latitude = location.latitude;
                     this.longitude = location.longitude;
                     console.log('Got Location');
-                    return this.$.location.toGeohash(location.latitude, location.longitude)
+                    return this.$.location.toGeohash(location.latitude, location.longitude);
                 })
                 .then((geoHash) => {
                     this.geoHash = geoHash;
@@ -75,10 +75,9 @@
                 });
             }
 
-            _goMap(){
+            _goMap() {
                 window.location.href = 'https://www.google.com/maps/place/'+this.latitude+','+this.longitude;
             }
-
         } window.customElements.define(GetGeohash.is, GetGeohash);
     </script>
 </dom-module>
