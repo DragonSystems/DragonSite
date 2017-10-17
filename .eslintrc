@@ -1,8 +1,6 @@
 {
   "extends": ["eslint:recommended", "google"],
-  "parserOptions": {
-    "ecmaVersion": 6
-  },
+  "parser": "babel-eslint",
   "env": {
     "browser": true
   },
@@ -13,9 +11,14 @@
     "brace-style": "off",
     "new-cap": ["error", { "capIsNewExceptions": ["Polymer"] }],
     "no-var": "off",
-    "require-jsdoc": "off"
+    "require-jsdoc": "off",
+    "max-len": ["error", 100]
   },
   "globals": {
-    "Polymer": true
+    "Polymer": true,
+    "Promise": true,
+    "dragon": true,
+    "pbkdf2Sync": true,
+    "lightwallet": true
   }
 }
