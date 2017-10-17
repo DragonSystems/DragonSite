@@ -1,5 +1,6 @@
-const path = require('path')
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+/* eslint-env node */
+const path = require('path');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 
 module.exports = {
@@ -22,10 +23,10 @@ module.exports = {
       loader: 'babel-loader',
       options: {
         presets: [
-          ['es2015', { modules: false }]
+          ['es2015', {modules: false}],
         ],
       },
-    }]
+    }],
   },
   plugins: [
     new UglifyJSPlugin({
@@ -37,4 +38,4 @@ module.exports = {
     }),
   ],
   devtool: 'source-map',
-}
+};

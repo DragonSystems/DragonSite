@@ -112,7 +112,10 @@
                 const filename = this.wallet.fileName;
                 const text = JSON.stringify(this.wallet.utcKeystore);
                 const element = document.createElement('a');
-                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+                element.setAttribute(
+                    'href',
+                    'data:text/plain;charset=utf-8,' + encodeURIComponent(text)
+                );
                 element.setAttribute('download', filename);
                 element.style.display = 'none';
                 document.body.appendChild(element);
@@ -136,9 +139,21 @@
                 })
                 .then(() => {
                     var myWindow = window.open('', 'MsgWindow', 'width=800,height=600', '_blank');
-                    myWindow.document.write('<title>Print Paper Wallet</title><img src=\''+this.addressQR+'\' class=\'address\'><p>Your Ethereum Address: '+this.wallet.address+'</p><img src=\''+this.privateKeyQR+'\' class=\'private-key\'><p>Your Private Key: '+this.wallet.privateKey+'</p>');
+                    myWindow.document.write('<title>Print Paper Wallet</title><img src=\''+
+                        this.addressQR+
+                        '\' class=\'address\'><p>Your Ethereum Address: '+
+                        this.wallet.address+
+                        '</p><img src=\''+
+                        this.privateKeyQR+
+                        '\' class=\'private-key\'><p>Your Private Key: '+
+                        this.wallet.privateKey+'</p>'
+                    );
                     setTimeout(function() {myWindow.print();}, 200);
-                    myWindow.onfocus = function() {setTimeout(function() {myWindow.close();}, 200);};
+                    myWindow.onfocus = function() {
+                        setTimeout(function() {
+                            myWindow.close();
+                        }, 200);
+                    };
                 });
             }
         } window.customElements.define(CreateWallet.is, CreateWallet);

@@ -1,7 +1,8 @@
 // @flow
-import { randomBytes, createCipheriv, pbkdf2Sync, createDecipheriv } from 'crypto';
-import { decipherBuffer, decodeCryptojsSalt, evp_kdf } from './decrypt';
-import { sha3, privateToAddress } from 'ethereumjs-util';
+/* eslint-env node */
+import {randomBytes, createCipheriv, pbkdf2Sync, createDecipheriv} from 'crypto';
+import {decipherBuffer, decodeCryptojsSalt, evp_kdf as evpKdf} from './decrypt';
+import {sha3, privateToAddress} from 'ethereumjs-util';
 import scrypt from 'scryptsy';
 import uuid from 'uuid';
 
@@ -12,7 +13,8 @@ export type UtcKeystore = {
   Crypto: Object
 };
 
-//adapted from https://github.com/kvhnuke/etherwallet/blob/de536ffebb4f2d1af892a32697e89d1a0d906b01/app/scripts/myetherwallet.js#L342
+// eslint-disable-next-line
+// adapted from https://github.com/kvhnuke/etherwallet/blob/de536ffebb4f2d1af892a32697e89d1a0d906b01/app/scripts/myetherwallet.js#L342
 export function determineKeystoreType(file: string): string {
   const parsed = JSON.parse(file);
 
@@ -41,7 +43,8 @@ export function isKeystorePassRequired(file: string): boolean {
   }
 }
 
-//adapted from https://github.com/kvhnuke/etherwallet/blob/de536ffebb4f2d1af892a32697e89d1a0d906b01/app/scripts/myetherwallet.js#L218
+// eslint-disable-next-line
+// adapted from https://github.com/kvhnuke/etherwallet/blob/de536ffebb4f2d1af892a32697e89d1a0d906b01/app/scripts/myetherwallet.js#L218
 export function decryptPresaleToPrivKey(
   file: string,
   password: string
@@ -70,10 +73,12 @@ export function decryptPresaleToPrivKey(
   return privkey;
 }
 
-//adapted from https://github.com/kvhnuke/etherwallet/blob/de536ffebb4f2d1af892a32697e89d1a0d906b01/app/scripts/myetherwallet.js#L179
+// eslint-disable-next-line
+// adapted from https://github.com/kvhnuke/etherwallet/blob/de536ffebb4f2d1af892a32697e89d1a0d906b01/app/scripts/myetherwallet.js#L179
 export function decryptMewV1ToPrivKey(file: string, password: string): Buffer {
   let json = JSON.parse(file);
-  let privkey, address;
+  let privkey;
+  let address;
 
   if (typeof password !== 'string') {
     throw new Error('Password required');
@@ -83,9 +88,9 @@ export function decryptMewV1ToPrivKey(file: string, password: string): Buffer {
   }
   let cipher = json.encrypted ? json.private.slice(0, 128) : json.private;
   cipher = decodeCryptojsSalt(cipher);
-  let evp = evp_kdf(new Buffer(password), cipher.salt, {
+  let evp = evpKdf(new Buffer(password), cipher.salt, {
     keysize: 32,
-    ivsize: 16
+    ivsize: 16,
   });
   let decipher = createDecipheriv('aes-256-cbc', evp.key, evp.iv);
   privkey = decipherBuffer(decipher, new Buffer(cipher.ciphertext));
@@ -99,7 +104,7 @@ export function decryptMewV1ToPrivKey(file: string, password: string): Buffer {
 }
 
 export const scryptSettings = {
-  n: 1024
+  n: 1024,
 };
 
 export const kdf = 'scrypt';
@@ -114,7 +119,7 @@ export function pkeyToKeystore(
   let derivedKey;
   const kdfparams: Object = {
     dklen: 32,
-    salt: salt.toString('hex')
+    salt: salt.toString('hex'),
   };
   if (kdf === 'scrypt') {
     // FIXME: support progress reporting callback
@@ -143,19 +148,19 @@ export function pkeyToKeystore(
   return {
     version: 3,
     id: uuid.v4({
-      random: randomBytes(16)
+      random: randomBytes(16),
     }),
     address,
     Crypto: {
       ciphertext: ciphertext.toString('hex'),
       cipherparams: {
-        iv: iv.toString('hex')
+        iv: iv.toString('hex'),
       },
       cipher: 'aes-128-ctr',
       kdf,
       kdfparams,
-      mac: mac.toString('hex')
-    }
+      mac: mac.toString('hex'),
+    },
   };
 }
 
@@ -172,7 +177,8 @@ export function decryptUtcKeystoreToPkey(
   if (kstore.version !== 3) {
     throw new Error('Not a V3 wallet');
   }
-  let derivedKey, kdfparams;
+  let derivedKey;
+  let kdfparams;
 
   if (kstore.crypto.kdf === 'scrypt') {
     kdfparams = kstore.crypto.kdfparams;

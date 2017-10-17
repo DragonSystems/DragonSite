@@ -79,6 +79,7 @@
                         viewBox: {x: 0, y: 0, width: img.width, height: img.height},
                     });
                     draw();
+                    // eslint-disable-next-line
                     addWheelListener(canvas, function(e) {
                         e.preventDefault();
                         nonaf.setCenter(e.clientX, e.clientY);
@@ -92,8 +93,8 @@
             * @param {event} event The event from the on-change
             */
             _drawCanvas() {
-                var {canvas, ctx, tX, tY, left, top, viewBox, canvasWidth, canvasHeight, ratio,
-                    rotations, rotation, zoomFactor, paintWidth, paintHeight} = this.mathCanvas;
+                var {canvas, ctx, tX, tY, left, top, viewBox,
+                    rotations, rotation, paintWidth, paintHeight} = this.mathCanvas;
                 var img = this.img || this.defaultImg;
                 var width = canvas.width;
                 var height = canvas.height;
@@ -110,7 +111,17 @@
                 ctx.clip();
                 ctx.translate(tX + left, tY + top);
                 ctx.rotate(rotations[rotation]);
-                ctx.drawImage(img, viewBox.x, viewBox.y, viewBox.width, viewBox.height, 0, 0, paintWidth, paintHeight);
+                ctx.drawImage(
+                    img,
+                    viewBox.x,
+                    viewBox.y,
+                    viewBox.width,
+                    viewBox.height,
+                    0,
+                    0,
+                    paintWidth,
+                    paintHeight
+                );
                 ctx.restore();
             }
 
@@ -153,24 +164,26 @@
             }
             _reset() {
                 this.img = null;
-                this.mathCanvas.size.width = this.mathCanvas.viewBox.width = this.defaultImg.width;
-                this.mathCanvas.size.height = this.mathCanvas.viewBox.height = this.defaultImg.height;
+                this.mathCanvas.viewBox.width = this.defaultImg.width;
+                this.mathCanvas.size.width = this.defaultImg.width;
+                this.mathCanvas.viewBox.height = this.defaultImg.height;
+                this.mathCanvas.size.height = this.defaultImg.height;
                 this.mathCanvas.reorient();
-			}
+            }
             _save() {
-                const canvas = this.$.canvas;
-                const jpegUrl = canvas.toDataURL('image/jpeg');
-                console.log(jpegUrl);
+                // const canvas = this.$.canvas;
+                // const jpegUrl = canvas.toDataURL('image/jpeg');
+                // console.log(jpegUrl);
             }
             _rotate() {
                 this.mathCanvas.rotate(1);
             }
-			_zoomin() {
+            _zoomin() {
                 this.mathCanvas.changeZoom(4);
-			}
-			_zoomout() {
+            }
+            _zoomout() {
                 this.mathCanvas.changeZoom(-4);
-			}
+            }
         } window.customElements.define(ResizeAvatar.is, ResizeAvatar);
     </script>
 </dom-module>
