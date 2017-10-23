@@ -19,6 +19,7 @@
     "Promise": true,
     "dragon": true,
     "pbkdf2Sync": true,
-    "lightwallet": true
+    "lightwallet": true,
+    "socket": true
   }
 }

@@ -1,0 +1,93 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="functions/function-wallet.html">
+<link rel="import" href="../shared-styles.html">
+
+<dom-module id="call-contract">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+            .inputfile {
+                width: 0.1px;
+                height: 0.1px;
+                opacity: 0;
+                overflow: hidden;
+                position: absolute;
+                z-index: -1;
+            }
+        </style>
+        <function-wallet id="wallet"></function-wallet>
+        <div class="container">
+
+            <h1>Call Contract</h1>
+            <p><b>This will emit an event over a websocket to the API, the API will then use this data to call the contract and return the response</b></p>
+            <paper-input label="Contract Address" value="{{address}}"></paper-input>
+            <paper-input label="ABI" value="{{abi}}"></paper-input>
+            <paper-input label="Method Name" value="{{methodName}}"></paper-input>
+            <paper-input label="Arguments" value="{{arguments}}"></paper-input>
+            </br></br>
+            <paper-button toggles raised on-click="_callContract">Call Contract</paper-button>
+
+
+        </div>
+    </template>
+    <script>
+        class CallContract extends Polymer.Element {
+            static get is() {
+                return 'call-contract';
+            }
+            static get properties() {
+                return {
+                    /**
+                    * contractAddress
+                    * @type {Object}
+                    */
+                    address: {
+                        type: String,
+                    },
+                    /**
+                    * abi
+                    * @type {Object}
+                    */
+                    abi: {
+                        type: String,
+                    },
+                    /**
+                    * methodName
+                    * @type {Object}
+                    */
+                    methodName: {
+                        type: String,
+                    },
+                                    /**
+                    * arguments
+                    * @type {Object}
+                    */
+                    arguments: {
+                        type: String,
+                    },
+                };
+            }
+
+            /**
+            * Fired when the user selects a file
+            * @param {event} event The event from the on-change
+            */
+            _callContract(event) {
+                const data = {
+                    address: this.address,
+                    abi: this.abi,
+                    method: this.methodName,
+                    arguments: this.arguments,
+                };
+                socket.emit('callContract', data, function(response) {
+                    alert(response);
+                });
+            }
+        } window.customElements.define(CallContract.is, CallContract);
+    </script>
+</dom-module>
+
