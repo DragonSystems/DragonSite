@@ -32,7 +32,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="lazy-import" href="my-geohash-distance.html">
 <link rel="lazy-import" href="my-default-language.html">
 <link rel="lazy-import" href="my-translation-available.html">
+<link rel="lazy-import" href="my-get-nonce.html">
 <link rel="lazy-import" href="my-call-contract.html">
+<link rel="lazy-import" href="my-get-gasprice.html">
+<link rel="lazy-import" href="my-eth-balance.html">
+<link rel="lazy-import" href="my-eth-transaction.html">
 <link rel="lazy-import" href="my-view404.html">
 
 <dom-module id="my-app">
@@ -91,7 +95,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
         <app-toolbar>Menu</app-toolbar>
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-          <h4>Browser Only</h4>
+          <h4>Site Only</h4>
           <a name="default-language" href="[[rootPath]]default-language">Default Language</a>
           <a name="translation-available" href="[[rootPath]]translation-available">Translation Available</a>
           <a name="create-wallet" href="[[rootPath]]create-wallet">Create Wallet</a>
@@ -103,8 +107,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <a name="get-geohash" href="[[rootPath]]get-geohash">Get Geohash</a>
           <a name="geohash-distance" href="[[rootPath]]geohash-distance">Geohash Distance</a>
           <hr>
-          <h4>Browser & Server</h4>
+          <h4>Site & API</h4>
+          <a name="eth-balance" href="[[rootPath]]eth-balance">Eth Balance</a>
+          <a name="get-nonce" href="[[rootPath]]get-nonce">Get Nonce</a>
+          <a name="get-gasprice" href="[[rootPath]]get-gasprice">Get Gas Price</a>
+          <a name="eth-transaction" href="[[rootPath]]eth-transaction">Eth Transaction</a>
           <a name="call-contract" href="[[rootPath]]call-contract">Call Contract</a>
+          
+
+
 
           
         </iron-selector>
@@ -135,7 +146,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <my-geohash-distance name="geohash-distance"></my-geohash-distance>
           <my-default-language name="default-language"></my-default-language>
           <my-translation-available name="translation-available"></my-translation-available>
+          <my-get-nonce name="get-nonce"></my-get-nonce>
           <my-call-contract name="call-contract"></my-call-contract>
+          <my-get-gasprice name="get-gasprice"></my-get-gasprice>
+          <my-eth-balance name="eth-balance"></my-eth-balance>
+          <my-eth-transaction name="eth-transaction"></my-eth-transaction>
           <my-view404 name="view404"></my-view404>
         </iron-pages>
       </app-header-layout>

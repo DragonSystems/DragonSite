@@ -14,6 +14,10 @@
     "src/my-default-language.html",
     "src/my-old-wallet.html",
     "src/my-call-contract.html",
+    "src/my-get-nonce.html",
+    "src/my-get-gasprice.html",
+    "src/my-eth-balance.html",
+    "src/my-eth-transaction.html",
     "src/my-view404.html"
   ],
   "sources": [

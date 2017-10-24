@@ -1,0 +1,66 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="functions/function-wallet.html">
+<link rel="import" href="../shared-styles.html">
+
+<dom-module id="get-nonce">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+            .inputfile {
+                width: 0.1px;
+                height: 0.1px;
+                opacity: 0;
+                overflow: hidden;
+                position: absolute;
+                z-index: -1;
+            }
+        </style>
+        <function-wallet id="wallet"></function-wallet>
+        <div class="container">
+
+            <h1>Get Nonce</h1>
+            <p><b>Get nonce for this address</b></p>
+            <paper-input label="ETH Address" value="{{address}}"></paper-input>
+            </br></br>
+            <paper-button toggles raised on-click="_getNonce">Get Nonce</paper-button>
+
+
+        </div>
+    </template>
+    <script>
+        class GetNonce extends Polymer.Element {
+            static get is() {
+                return 'get-nonce';
+            }
+            static get properties() {
+                return {
+                    /**
+                    * Eth Address
+                    * @type {Object}
+                    */
+                    address: {
+                        type: String,
+                    },
+                };
+            }
+
+            /**
+            * Fired when the user selects a file
+            * @param {event} event The event from the on-change
+            */
+            _getNonce(event) {
+                const data = {
+                    address: this.address,
+                };
+                socket.emit('getNonce', data, function(response) {
+                    alert(response);
+                });
+            }
+        } window.customElements.define(GetNonce.is, GetNonce);
+    </script>
+</dom-module>
+

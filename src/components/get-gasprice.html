@@ -1,0 +1,62 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="functions/function-wallet.html">
+<link rel="import" href="../shared-styles.html">
+
+<dom-module id="get-gasprice">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+            .inputfile {
+                width: 0.1px;
+                height: 0.1px;
+                opacity: 0;
+                overflow: hidden;
+                position: absolute;
+                z-index: -1;
+            }
+        </style>
+        <function-wallet id="wallet"></function-wallet>
+        <div class="container">
+
+            <h1>Get Gas Price</h1>
+            <p><b>Get gas price</b></p>
+            </br></br>
+            <paper-button toggles raised on-click="_getGasPrice">Get Gas Price</paper-button>
+
+
+        </div>
+    </template>
+    <script>
+        class GetGasPrice extends Polymer.Element {
+            static get is() {
+                return 'get-gasprice';
+            }
+            static get properties() {
+                return {
+                    /**
+                    * Gas price
+                    * @type {Object}
+                    */
+                    gasPrice: {
+                        type: Number,
+                    },
+                };
+            }
+
+            /**
+            * Fired when the user selects a file
+            * @param {event} event The event from the on-change
+            */
+            _getGasPrice(event) {
+                socket.emit('getGasPrice', null, function(response) {
+                    alert(response);
+                });
+            }
+        } window.customElements.define(GetGasPrice.is, GetGasPrice);
+    </script>
+</dom-module>
+

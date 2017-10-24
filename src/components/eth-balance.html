@@ -1,0 +1,66 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="functions/function-wallet.html">
+<link rel="import" href="../shared-styles.html">
+
+<dom-module id="eth-balance">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+            .inputfile {
+                width: 0.1px;
+                height: 0.1px;
+                opacity: 0;
+                overflow: hidden;
+                position: absolute;
+                z-index: -1;
+            }
+        </style>
+        <function-wallet id="wallet"></function-wallet>
+        <div class="container">
+
+            <h1>Eth Balance</h1>
+            <p><b>Get eth balance for this address</b></p>
+            <paper-input label="ETH Address" value="{{address}}"></paper-input>
+            </br></br>
+            <paper-button toggles raised on-click="_ethBalance">Get Eth Balance</paper-button>
+
+
+        </div>
+    </template>
+    <script>
+        class EthBalance extends Polymer.Element {
+            static get is() {
+                return 'eth-balance';
+            }
+            static get properties() {
+                return {
+                    /**
+                    * Eth Address
+                    * @type {Object}
+                    */
+                    address: {
+                        type: String,
+                    },
+                };
+            }
+
+            /**
+            * Fired when the user selects a file
+            * @param {event} event The event from the on-change
+            */
+            _ethBalance(event) {
+                const data = {
+                    address: this.address,
+                };
+                socket.emit('ethBalance', data, function(response) {
+                    alert(response);
+                });
+            }
+        } window.customElements.define(EthBalance.is, EthBalance);
+    </script>
+</dom-module>
+
